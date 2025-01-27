@@ -1,0 +1,1 @@
+gcloud functions deploy gcf-scan-write-storage-snow --region=europe-west9 --runtime=python312  --trigger-topic=scanflow-scan-event-topic --entry-point=main  --service-account=sa-snowflake-storage@qr-code-decideomtour-scanflow.iam.gserviceaccount.com --source=.

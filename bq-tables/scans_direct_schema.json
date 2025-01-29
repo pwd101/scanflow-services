@@ -1,0 +1,41 @@
+[
+    {
+        "name": "scan_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "id generated with the datetime"
+    },
+    {
+        "name": "surname",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "name",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "email",
+        "type": "STRING"
+    },
+    {
+        "name": "company",
+        "type": "STRING"
+    },
+    {
+        "name": "city",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "location",
+        "type": "STRING",
+        "mode": "REQUIRED"
+    },
+    {
+        "name": "scan_time",
+        "type": "TIMESTAMP",
+        "mode": "REQUIRED"
+    }
+]

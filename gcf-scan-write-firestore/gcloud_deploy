@@ -1,0 +1,1 @@
+gcloud functions deploy gcf-scan-write-firestore --region=europe-west1 --runtime=python312  --trigger-topic=scanflow-scan-event-topic --entry-point=main --source=.

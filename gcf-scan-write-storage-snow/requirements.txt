@@ -2,3 +2,4 @@ functions-framework
 google-cloud-storage
 avro-python3
 python-snappy
+datetime

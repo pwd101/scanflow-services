@@ -1,5 +1,6 @@
 from google.cloud import pubsub_v1
 import json
+import time
 
 def publish_message(project_id, topic_id, message_data):
 
@@ -22,8 +23,31 @@ def publish_message(project_id, topic_id, message_data):
   except Exception as e:
     print(f"Error publishing message: {e}")
 
+ts = int(time.time() * 1000000)
+# print(ts)
+# print(1738595374148000)
 
-project = ""
-topic = ""
-msg = ""
-publish_message(project, topic, msg)
+project = "qr-code-decideomtour-scanflow"
+# topic = "pubtest"
+topic = "scanflow-scan-event-topic"
+# msg = json.dumps({
+#     "surname": "Frank",
+#     "name": "Robert",
+#     "email": "frob@decideom.com",
+#     "company": "Decideom",
+#     "city": "Paris",
+#     "location": "ATL 1",
+#     "scan_time": ts
+# })
+# print(msg)
+import pandas as pd
+df = pd.read_excel("avro_data_clean.xlsx")
+for i , r in df.iterrows():
+  if i == 0: 
+    continue
+
+  data = r.to_dict()
+  msg = json.dumps(data)
+  publish_message(project, topic, msg)
+  # break
+

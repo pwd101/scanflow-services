@@ -1,11 +1,5 @@
 [
     {
-        "name": "scan_id",
-        "type": "STRING",
-        "mode": "REQUIRED",
-        "description": "id generated with the datetime"
-    },
-    {
         "name": "surname",
         "type": "STRING",
         "mode": "REQUIRED"
@@ -35,7 +29,8 @@
     },
     {
         "name": "scan_time",
-        "type": "TIMESTAMP",
-        "mode": "REQUIRED"
+        "type": "TIMESTAMP",  
+        "mode": "REQUIRED",
+        "description": "Timestamp when the scan occurred."
     }
 ]

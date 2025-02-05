@@ -40,14 +40,17 @@ topic = "scanflow-scan-event-topic"
 #     "scan_time": ts
 # })
 # print(msg)
+
+import time
 import pandas as pd
 df = pd.read_excel("avro_data_clean.xlsx")
 for i , r in df.iterrows():
-  if i == 0: 
-    continue
+  # if i == 0: 
+  #   continue
 
   data = r.to_dict()
   msg = json.dumps(data)
   publish_message(project, topic, msg)
+  time.sleep(1)
   # break
 

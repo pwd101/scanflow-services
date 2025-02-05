@@ -25,55 +25,51 @@ AVRO_SCHEMA = avro.schema.parse("""{
     {"name": "company", "type": "string"},
     {"name": "city", "type": "string"},
     {"name": "location", "type": "string"},
-    {"name": "scan_time", "type": {"type": "long", "logicalType": "timestamp-nanos"}}
+    {"name": "scan_time", "type": {"type": "long", "logicalType": "timestamp-micros"}}
   ]
 }""")
 
 
 
-def parse_timestamp_nanos(timestamp_nanos):
+def parse_timestamp_micros(timestamp_micros):
     # Convert nanoseconds to seconds
-    timestamp_seconds = timestamp_nanos // 10**9
-    print(timestamp_seconds)
+    timestamp_seconds = timestamp_micros / 1e6
     dt = datetime.fromtimestamp(timestamp_seconds)
     return dt.year, dt.month, dt.day
 
 
-print(parse_timestamp_nanos(1738053264556000))
 
-# dt = datetime.fromtimestamp(1738053264556000)
-# print(dt)
-# @functions_framework.cloud_event
-# def main(cloud_event):
-#     """Handles a Pub/Sub message and uploads Avro data to GCS."""
-#     print(cloud_event)
+@functions_framework.cloud_event
+def main(cloud_event):
+    """Handles a Pub/Sub message and uploads Avro data to GCS."""
+    print(cloud_event)
 
-#     pubsub_message = cloud_event.data
-#     message_data = pubsub_message.get("message", {}).get("data", None)
-#     if not message_data:
-#         msg = "no message or data"
-#         return msg
+    pubsub_message = cloud_event.data
+    message_data = pubsub_message.get("message", {}).get("data", None)
+    if not message_data:
+        msg = "no message or data"
+        return msg
 
-#     try:
-#         decoded_data = base64.b64decode(message_data).decode("utf-8")
-#         data_dict = json.loads(decoded_data)
+    try:
+        decoded_data = base64.b64decode(message_data).decode("utf-8")
+        data_dict = json.loads(decoded_data)
 
-#         # Uploads Avro bytes to Google Cloud Storage
-#         year, month, day = parse_timestamp_nanos(int(data_dict['scan_time']))
-#         filename =  f"{data_dict['scan_time']}.avro"
-#         storage_filepath = f"{STORAGE_LOCATION}{data_dict['city']}/{year}/{month}/{day}/{filename}"
+        # Uploads Avro bytes to Google Cloud Storage
+        year, month, day = parse_timestamp_micros(int(data_dict['scan_time']))
+        filename =  f"{data_dict['scan_time']}.avro"
+        storage_filepath = f"{STORAGE_LOCATION}{data_dict['city']}/{year}/{month}/{day}/{filename}"
 
-#         blob = snow_bucket.blob(storage_filepath)
+        blob = snow_bucket.blob(storage_filepath)
 
-#         avro_bytes = generate_avro_bytes(AVRO_SCHEMA, [data_dict]) # array of 1 row
-#         blob.upload_from_string(avro_bytes, content_type="application/avro")
+        avro_bytes = generate_avro_bytes(AVRO_SCHEMA, [data_dict]) # array of 1 row
+        blob.upload_from_string(avro_bytes, content_type="application/avro")
 
-#         print(f"Uploaded  {storage_filepath}")
-#         return f"Uploaded  {storage_filepath}"
+        print(f"Uploaded  {storage_filepath}")
+        return f"Uploaded  {storage_filepath}"
 
-#     except Exception as e:
-#         print(f"Error: {e}")
-#         return f"Error: {e}"
+    except Exception as e:
+        print(f"Error: {e}")
+        return f"Error: {e}"
 
 
 

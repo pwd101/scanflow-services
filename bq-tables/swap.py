@@ -77,8 +77,10 @@ def save_dataframe_to_excel(df, filename="avro_data.xlsx"):
         print("DataFrame is empty, no file saved")
 
 
-
-if __name__ == "__main__":
-    df = avro_files_to_dataframe(STORAGE_BUCKET, STORAGE_LOCATION, num_workers=10) # 10 is the number of worker threads, tweak if needed
-    print(df)
-    save_dataframe_to_excel(df)
+x = list_avro_files(STORAGE_BUCKET, "qrscan")
+print(x)
+print(len(set(x)))
+# if __name__ == "__main__":
+#     df = avro_files_to_dataframe(STORAGE_BUCKET, STORAGE_LOCATION, num_workers=10) # 10 is the number of worker threads, tweak if needed
+#     print(df)
+#     save_dataframe_to_excel(df)
